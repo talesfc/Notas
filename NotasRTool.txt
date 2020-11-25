@@ -1,0 +1,473 @@
+---- MIX
+
+-- ajuda
+
+help.start()
+
+help(fun??o)
+
+help("[[")
+
+
+-- INFO dos dados
+
+summary(dado)
+
+str(dado)
+
+-- To discard observations with missing data:
+pisaTrain = na.omit(pisaTrain)
+
+-- ARGS - Para pegar parametros de linha de comando
+args <- commandArgs(trailingOnly = TRUE)
+arqImagemPly <- args[1]
+
+-- Packages		
+install.packages("caTools")
+library(caTools)
+
+-- Para escrever mensagem na tela
+cat(sprintf("Arquivo imagem=%s ", arqImagemPly));
+
+-- Para direcionar sa?da de tela para arquivo
+sink(arqLog, append=FALSE, split=FALSE)
+
+
+
+---- Utilidades
+
+clearenv= function() { objs <- ls(pos = ".GlobalEnv");  rm(list = objs, pos = ".GlobalEnv") }
+
+
+---- Loops
+
+for (i in seq_along(nuvem_azuis$X)) { }  //seq_along() garante execu??o pelo numero de elementos do vetor
+
+For DataFrames you may use seq_len
+for(i in seq_len(nrow(the.table)){
+    do.stuff()
+}
+
+for (i in n:m) { } 	//pode ser executado 1 vez se n ou m n?o for definido
+
+while (loop==1) { }
+
+
+
+---- VETORES e MATRIZES ----
+
+SSE_Test= sum((predTest - pisaTest$readingScore)^2) //soma dos elemento do vetor
+
+SST_Test= mean(pisaTest$readingScore)
+
+SSE_Test= log(FluTest$ILI)
+
+movies= unique(movies)
+
+NewsTest$Join <<- rep(0,nrow)
+
+BR<-floor(NUVEM$B/NUVEM$R)
+BRdummie<-ceiling(BR/max(BR))
+
+coordenadas[i,1]<-weighted.mean(grupo_i$X,grupo_i$dif)
+
+ifelse(x > 6,2*x,3*x)
+
+prazos= matrix(0, nrow = 36, ncol = 3)  //cria matriz com 36 linhas e 3 colunas inicalizado com zero
+
+-- nomear elementos de vetores
+  xv= dfPost$Conteudo
+  names(xv)= dfPost$ID
+
+---- DATAFRAME
+
+-- para criar dataframe vazio
+df= data.frame()
+df= subset(cars, FALSE)
+df= cars[0,]
+df= data.frame(Date=as.Date(character()), File=character(),  User=character(),  stringsAsFactors=FALSE) 
+
+exemplo:
+	Producao_Week= data.frame(Semana=numeric(), Arquivos=numeric(),  Ano=character()) 
+	newrow = data.frame(Semana=week, Arquivos=arquivos, Ano=ano)
+        Producao_Week= rbind(Producao_Week,newrow)
+
+-- para n?o usar factors no dataframe
+df <- data.frame(Date=as.Date(character()), File=character(),  User=character(),  stringsAsFactors=FALSE) 
+
+
+-- acrescenta linhas ao dataframe
+NewsAll <<- rbind(NewsTrain,NewsTest)
+
+-- Para compor vetores em um dataframe ou matriz
+nuvem_azuis<-as.data.frame(cbind(nuvem_azuis$X,nuvem_azuis$Y,nuvem_azuis$Z,nuvem_azuis$R,nuvem_azuis$G,nuvem_azuis$B))
+nuvem_azuis<-as.matrix(cbind(nuvem_azuis$X,nuvem_azuis$Y,nuvem_azuis$Z,nuvem_azuis$R,nuvem_azuis$G,nuvem_azuis$B))
+
+-- to exclude variables in dataset first define a vector of variable names:
+ nonvars = c("year", "songtitle", "artistname", "songID", "artistID")
+... then type the following commands:
+ SongsTrain = SongsTrain[ , !(names(SongsTrain) %in% nonvars) ]
+
+...Nas linhas onde a condi??o atende, atribui o parametro 2, se n?o vale o parametro 3
+NewsAll$NewsDesk <<- ifelse(NewsAll$NewsDesk=="" & NewsAll$SectionName!="", 
+  NewsAll$SectionName, NewsAll$NewsDesk)
+
+---- 	FACTORS 
+
+-- using the as.factor() function, convert variables to factors:
+ parole$crime <- as.factor(parole$crime)
+
+If you want a new data frame bobc where every factor vector in bobf is converted to a character vector, try this:
+bobc <- rapply(bobf, as.character, classes="factor", how="replace")
+ou
+CaseID_character <- levels(LOG$CaseID)[as.numeric(LOG$CaseID)]
+
+   If you then want to convert it back, you can create a logical vector of which columns are factors, and use that to selectively apply factor
+f <- sapply(bobf, class) == "factor"
+bobc[,f] <- lapply(bobc[,f], factor)
+
+-- SUBSET
+
+subset(test, int.rate >= 0.15)
+subset(movies, Title=="Men in Black (1997)")
+
+# using subset function, keep only variables  ID and Weight
+newdata <- subset(mydata, age >= 20 | age < 10, select=c(ID, Weight))
+
+train= subset(polling, Year< 2009)
+
+limits <- subset(Param, SIGLA == " C7");
+
+# subset using indexes []
+
+Train <- NewsAll[NewsAll$Join== 1,]
+Test <- NewsAll[NewsAll$Join== 0,]
+
+index= caso[i,] #copia em index a linha i de caso
+
+trimtrain <- train[1:8]
+
+processo$Equipe[processo$EquipeNivel5Sec == umnome] <- paste("Equipe",formatC(i, width=3, flag="0"), sep="_")
+
+x= processo$Equipe[5]
+
+# subset por complemento
+newdata <- myData[-c(2, 4, 6), ] 
+
+#para excluir linhas repetidas
+checkunique= unique(check)
+
+checkunique= check[!duplicated(check),] 
+
+# excluir linhas repetidas com base em colunas
+#check[!duplicated(check[,c('id','id2')]),]
+
+-- headers
+names(out) = c("rocrValue")
+
+# muda nomes de colunas
+colnames(df)[colnames(df) == 'oldName'] <- 'newName'
+
+# Rename column where names is "Sepal.Length"
+names(my_data)[names(my_data) == "Sepal.Length"] <- "sepal_length"
+names(my_data)[names(my_data) == "Sepal.Width"] <- "sepal_width"
+
+-- ordenando
+nuvem_azuis<-nuvem_azuis[order(nuvem_azuis$Z, decreasing=TRUE), ]
+LOG= LOG[-order(LOG$Caso, LOG$DataHora), ] # define sequencia de colunas para ordenar, sinal "-" define ordem decrescente
+anos <<- sort(unique(year(log$InicioEstimado)))
+
+
+---- CSV
+
+-- read.csv()
+By default variable that takes text values are loaded as a factor variable.The first level alphabetically 
+("American Indian/Alaska Native") is selected as the reference level instead of the most common level ("White"). 
+To set the reference level of the factor type the following: pisaTrain$raceeth = relevel(pisaTrain$raceeth, "White")
+
+To read text values as strings:
+ tweets= read.csv("tweets.csv", stringsAsFactors=FALSE, header=TRUE, sep=", "encoding="UTF-8")
+ 
+ -- write.csv()
+write.csv(MySubmission, "SubmissionLog.csv", row.names=FALSE)
+
+
+---- TEXTO  NLP
+
+-b?sico
+
+.verifica se haystack est? contido em needle: grepl(needle, haystack, fixed=TRUE)
+
+
+require(tm)
+
+pode ser necess?rio:
+install.packages("slam") 
+ou
+slam_url <- "https://cran.r-project.org/src/contrib/Archive/slam/slam_0.1-37.tar.gz"
+install_url(slam_url)
+
+require(SnowballC)
+
+ corpus= Corpus(VectorSource(tweets$Tweet))
+ corpus= tm_map(corpus, tolower)
+ corpus = tm_map(corpus, PlainTextDocument)
+ corpus= tm_map(corpus, removePunctuation)
+ stopwords("english") [1:10]
+ corpus= tm_map(corpus, removeWords, c("apple", stopwords("english")))
+ corpus= tm_map(corpus, stemDocument)
+ frequencies= DocumentTermMatrix(corpus)
+ inspect(frequencies[1000:1005, 505:515])
+ findFreqTerms(frequencies, lowfreq=20)
+ sparse= removeSparseTerms(frequencies, 0.995)
+ tweetsSparse= as.data.frame(as.matrix(sparse))
+ 
+colnames(tweetsSparse)= make.names(colnames(tweetsSparse))
+
+parcial <- strsplit(arqImagemPly,'.ply',fixed=TRUE)
+
+#
+# acesso a resultado em lista
+nome <- strsplit("arqImagem.ply,'.',fixed=TRUE)
+> nome
+[[1]]
+[1] "arqImagem" "ply" 
+
+
+> str(nome)
+List of 1
+ $ : chr [1:2] "arqImagem" "ply"
+
+   ---> nome[[1]][1]="arqImagem"
+   ---> nome[[1]][2]="ply"
+#
+#
+arqFicha  <<- paste0(parcial,"_Ficha.csv")
+
+# replacement of some n-grams
+train$Headline <- gsub("New York|New York City", "NewYork", train$Headline, ignore.case = TRUE)
+
+if(length(grep("ab","aacd"))>0) print("found") else print("Not found")
+ifelse(grepl("ab", "aacabd"), TRUE, FALSE)
+
+# remover termos esparsos
+tdm.frequent = removeSparseTerms(tdm, 0.1)
+
+- QUANTEDA
+
+The kwic function (KeyWord In Context) performs a search for a word and allows us to view the contexts in which it occurs:
+#>                                                 contextPre keyword     contextPost
+#>    [1797-Adams, 1327]              fraud or violence, by [  terror ] , intrigue, or venality   
+#> [1933-Roosevelt, 112] nameless, unreasoning, unjustified [  terror ] which paralyzes needed
+
+
+--- STRING
+
+x= substring(entrada$activity,11)
+y=substr(entrada$activity,11,30)
+
+#substitui primeira ocorrencia no string
+LOG$activity= sub('/eikon', '', LOG$activity)
+#substitui todas as ocorrencias no string
+novo=gsub('pattern', replacement, input)
+
+#substring & localiza??o de substring 
+astring= substr(x, first, last)
+
+pos = regexpr('pattern', x)
+
+pos= regexpr("\\.[^\\.]*$", x)
+
+#substitui??o de string
+sub('^.* (\\w+)$', '\\1', log$Localidade), 
+
+paste("Hello", "world", sep=" ")
+
+# formata??o em string
+SPRINTF= function(x) sprintf("%02d", x)
+FORMATC= function(x) formatC(x, width = 2,flag = 0)
+STR_PAD= function(x) str_pad(x, width=2, side="left", pad="0")
+
+# converte coluna para factor
+aframe2$x= factor(aframe2$x)
+df$param_d= as.factor(df$param_d)
+
+# extrai string de coluna factor  
+directions.string= as.character(directions.factor)
+
+# extrai indice de coluna factor  
+directions.indice= as.numeric(directions.factor)
+
+# converte string em inteiro
+ix= strtoi(x, base = 0L) 
+
+# TRIM
+trimws(x, which = c("both", "left", "right"), whitespace = "[ \t\r\n]")
+
+str_trim()
+str_squish()
+
+# TOKENIZE
+
+- quebrando string em palavras com strsplit
+words <- strsplit(pangram, " ")[[1]]
+> words
+[1] "The"  "quick" "brown" "fox"  "jumps" "over" "the"  "lazy" "dog"
+
+strsplit(string1, "\\s+") #separa por espaços e newlines
+
+- com package tokenizer
+tokenize_words(x, lowercase = TRUE, stopwords = NULL, strip_punct = TRUE,strip_numeric = FALSE, simplify = FALSE)
+
+- com stringr
+str_split(fruits, " ")
+str_split_fixed(fruits, " ", Inf)
+
+- com quanteda
+
+tokens(txt, remove_numbers = FALSE, remove_punct = FALSE, remove_separators = FALSE)
+
+    - with tokens_compound(), we can concatenate multi-word expressions:
+        tokens("New York City is located in the United States.") %>%
+            tokens_compound(pattern = phrase(c("New York City", "United States")))
+            ## tokens from 1 document.
+            ## text1 :
+            ## [1] "New_York_City" "is"            "located"       "in"           
+            ## [5] "the"           "United_States" "."
+
+- com tidytext
+text_df %>% unnest_tokens(word, text)
+
+
+---- Visualization
+
+plot(ROCRperf, colorize=TRUE, print.cutoffs.at=seq(0,1,0.1), text.adj=c(-0.2,1.7))
+
+# Kernel Density Plot
+d <- density(mtcars$mpg) # returns the density data 
+plot(d) # plots the results
+
+-- ggplot2
+scatterplot= ggplot(WHO, aes(x= GNI, y= FertilityRate))
+scatterplot+ geom_point()
+scatterplot+ geom_line()
+scatterplot+ geom_point(color="blue", size=3, shape=17)
+scatterplot+ geom_point(color="darkred", size=3, shape=8) +ggtitle("Fertlity Rates vs. Gross National Income")
+pdf("MyPlot.pdf")
+print(fertilityGNIplot)
+
+scatterplot + geom_boxplot()
+
+qplot(Contador, Intervalo, data = log, xlab = "Contador", ylab="Intervalo (h)") + theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
+
+ggplot(data=log, aes(x=Contador, y=Intervalo)) + geom_line() + xlim(0, 500) + ylim(0, 5000)
+ggplot(data=log, aes(x=Contador, y=Intervalo)) + geom_line() + geom_point() + ylim(0, 10000)
+
+ggplot(data=log, aes(x=Contador, y=Intervalo)) + geom_point() + ylim(0, 5000)
+
+aplot <- ggplot(kpimesGrupo,aes(AnoMes,Acumulado)) +
+   geom_bar(stat="identity", colour="white") +
+   ggtitle(Titulo) + xlab("Meses") + ylab("Membros no Grupo")
+#
+ggplot(economics, aes(x=date)) + 
+   geom_line(aes(y = psavert), color = "darkred") + 
+   geom_line(aes(y = uempmed), color="steelblue", linetype="twodash") 
+   + scale_x_discrete(labels=c("0.5" = "Dose 0.5", "1" = "Dose 1","2" = "Dose 2"))
+#
+# pARA PLOTAR LINHAS COM EIXO x NÃO NUMÉRICO, PRECISA DEFINIR GRUPO NO AES
+# to plot multiple lines at once, you should specify `group=variableWhichDefinesLines'
+ggplot(hist, aes(x=weekday, y=counts, group=1)) +
+   geom_point(stat='summary', fun.y=sum) +
+   stat_summary(fun.y=sum, geom="line")
+
+
+-- direcionando grafico para arquivos
+
+dev.print(device=pdf,"d12.pdf")
+
+# 10x6 cm
+pdf("plots.pdf", width=10/2.54, height=6/2.54)
+
+png("plot.png", width=480, height=240, res=120)
+plot(...)
+dev.off()
+
+png("plot-%d.png")
+plot(...)
+plot(...)
+plot(...)
+dev.off()
+
+#If you make plots with ggplot2 in a script or function, you must use the print() command to make the graphs actually get rendered.
+# This will do the right thing
+pdf("plots.pdf")
+print(qplot(...))
+dev.off()
+
+png(file="animals72.png",width=400,height=350,res=72)
+plot(Animals, log="xy", type="n", main="Animal brain/body size")
+text(Animals, lab=row.names(Animals))
+dev.off()
+
+---- Datas
+mvt$Date= strptime(mvt$Date, format="%m/%d/%y %H:%M")
+mvt$Weekday= weekdays(mvt$Date)
+mvt$Hour= mvt$Date$hour
+WeekdayCounts= as.data.frame(table(mvt$Weekday))
+
+- com lubridate
+log$TaskEnd= strptime(log$DataHora, format="%d/%m/%Y %H:%M")
+inicio= hitlog$TaskEnd[1]
+fim= hitlog$TaskEnd[ntask]
+ciclo= time_length(fim - inicio, unit = "day") #calcula o n?mero de dias do CasoInstancia
+log$TotalCicloDias[log$Caso == umcaso]=  round(ciclo, digits = 2)
+
+-- GIT
+Need a project, create or opne an existing project
+Click File -> Open Project
+
+Enable git for this project
+Click Tools -> Version Control -> Project Setup
+Click the dropdown box Version control system and select Git
+If you don't have a Git option go back to Configure RStudio. Do not pass Go. Do not collect $200
+
+Make your first commit
+Click the Git tab
+Check Staged next to .gitignore and hello.Rproj
+Click Commit
+Type a message in Commit message
+Click Commit
+
+This will tell git you want to start ignoring the changes to the file
+> git update-index --assume-unchanged path/to/file
+
+When you want to start keeping track again
+> git update-index --no-assume-unchanged path/to/file
+
+-------- SHINY ---------------
+- Scoping de variáveis https://shiny.rstudio.com/articles/scoping.html
+  
+  - Variables outside module server()  will be shared by all server instead of being created each time a user connects. If the object change, then it will be visible in every user session. 
+  - Note that you need to use the <<- assignment operator to change such variable, because the <- operator only assigns values in the local session environment.
+  
+  - reactiveVal: is used to construct a "reactive value" object used for reading and writing a value, like a variable, but with special capabilities for reactive programming. When you read the value out of a reactiveVal object, the calling reactive expression takes a dependency, and when you change the value, it notifies any reactives that previously depended on that value.
+
+-------- Problemas ----------
+
+- BUG RSTUDIO: Error in fBody[[i]] --> Session -> Restart R, Just clear all breakpoints and re-Source.
+
+- clausula TRY/CATCH para códigos mais robustos
+result = tryCatch({
+        ...
+        return(resok)
+    }, warning = function(w) {
+        message("warning-handler-code")
+        
+    }, error = function(e) {
+        message("error-handler-code")
+        flog.info("fillPost, ...)
+    }, finally = {
+      message("cleanup-code")
+      }
+    )
+

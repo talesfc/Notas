@@ -1,0 +1,155 @@
+2109-10-27
+
+REMOTE
+	- REF: https://git-scm.com/book/en/v2/Git-Basics-Working-with-Remotes
+	- To see which remote servers you have configured (rum em folder git)
+	=> $ git remote -v
+	If you’ve cloned your repository, you should at least see origin
+	origin  https://github.com/talesfc/SaberCuidar.git (fetch)
+	origin  https://github.com/talesfc/SaberCuidar.git (push)
+
+	- To add a new remote Git repository with a shortname you can reference easily, 
+	run git remote add <shortname> <url>
+	=> $ git remote add pb https://github.com/paulboone/ticgit
+	
+	- The fetch command pulls down all the data from remote project that you don’t have yet. 
+	After this you should have references to all the branches from that remote. You have to 
+	merge it manually into your work when you’re ready:
+	=> $ git fetch <remote>
+
+	- If you want to push your master branch to your origin server, then you can run this to 
+	push any commits you’ve done back up to the server:
+	=> $ git push origin master
+	
+	- To see information about a remote, use the git remote show <remote> command. 
+	=> $ git remote show origin
+		* remote origin
+		Fetch URL: https://github.com/talesfc/SaberCuidar.git
+		Push  URL: https://github.com/talesfc/SaberCuidar.git
+		HEAD branch: master
+		Remote branches:
+			1910_Python tracked
+			201910      tracked
+			Deploy      tracked
+			Develop     tracked
+			NLC_Nodejs  tracked
+			SingleFile  tracked
+			master      tracked
+		Local branch configured for 'git pull':
+			master merges with remote master
+		Local refs configured for 'git push':
+			1910_Python pushes to 1910_Python (fast-forwardable)
+			201910      pushes to 201910      (up to date)
+			master      pushes to master      (up to date)
+	
+	- To remove a remote you can either use git remote remove or git remote rm:
+	=> $ git remote remove paul
+	=> $ git remote
+
+PULL
+	Estatégia recomendada "rebase", configurada como default com: git config --global branch.autosetuprebase always
+
+TAG	
+	- Tags can be applied to specific points in a repository’s history. To list tags:
+	=> $ git tag
+
+	- Git supports two types of tags: lightweight and annotated. A lightweight tag is just a pointer to a specific commit, like a branch that doesn’t change.
+	Annotated tags are stored as full objects in the Git database. They’re checksummed; contain the tagger name, email, and date; have a tagging message; 
+	and can be signed and verified with GNU Privacy Guard (GPG).
+	
+	- You can create an annotated tag specifying -a when you run the tag command:
+	=> $ git tag -a v1.4 -m "my version 1.4"
+	
+	- A lightweight tag is basically the commit checksum. To create a lightweight tag just provide a tag name:
+	=> $ git tag v1.4-lw
+
+BRANCH
+	- Git encourages workflows that branch and merge often. To switch to an existing branch:
+	=> $ git checkout testing
+			It’s important to note that when you switch branches, files in your working directory will change. 
+			If you switch to an older branch, your working directory will be reverted to look like it did the 
+			last time you committed on that branch. If Git cannot do it cleanly, it will not let you switch at all.
+			if your working directory or staging area has uncommitted changes that conflict with the branch you’re 
+			checking out, Git won’t let you switch branches
+			
+	- To create a new branch and switch to it at the same time:
+	=> $ git checkout -b <newbranchname>
+	
+	- To merge the branch back into your master branch to deploy to production, use the git merge command:
+	=> $ git checkout master
+	=> $ git merge hotfix
+		Updating f42c576..3a0874c
+		Fast-forward
+		index.html | 2 ++
+		1 file changed, 2 insertions(+)
+	
+	- To delete the hotfix branch you no longer need,you can use the -d option on git branch:
+	=> $ git branch -d hotfix
+		Deleted branch hotfix (3a0874c).
+
+MERGE CONFLICTS
+	- To see which files are unmerged at any point after a merge conflict, you can run git status:
+	=> $ git status
+		On branch master
+		You have unmerged paths.
+		(fix conflicts and run "git commit")
+		Unmerged paths:
+			(use "git add <file>..." to mark resolution)
+		both modified:      index.html
+		no changes added to commit (use "git add" and/or "git commit -a")
+	- Git adds standard conflict-resolution markers to the files that have conflicts, 
+	you can open and resolve them manually:
+		<<<<<<< HEAD:index.html
+		<div id="footer">contact : email.support@github.com</div>
+		=======
+		<div id="footer">
+		please contact us at support@github.com
+		</div>
+		>>>>>>> iss53:index.html
+	- After you’ve resolved each of these sections in each conflicted file, 
+	run git add on each file to mark it as resolved. Staging the file marks it as resolved in Git.
+
+BRANCH MANAGEMENT
+	- To get a simple listing of your current branches (* indicates the currently checked out branch):
+	=> $ git branch
+		iss53
+	  * master
+		testing
+
+	- To see the last commit on each branch, you can run: git branch -v
+	
+	- To see which branches are already merged into the branch you’re on, you can run: git branch --merged
+	
+	- To see branches that contain work you haven’t yet merged in, you can run: git branch --no-merged
+
+MIX
+	- Para desmarcar arquivo marcado no GIT: git update-index --assume-unchanged "04-CadastraPost.html"
+	
+BEST PRACTICES
+	https://sethrobertson.github.io/GitBestPractices/
+	Do periodic maintenance
+	The first two items should be run on your server repositories as well as your user repositories.
+
+	- Validate your repo is sane: git fsck
+
+	- Compact your repo: git gc and git gc --aggressive
+		This will removed outdated dangling objects (after the two+ week grace period). 
+		It will also compress any loose objects git has added since your last gc. 
+		git will run a minimal gc automatically after certain commands, but doing a manual gc often 
+		(and “–aggressive” every few hundred changesets) will save space and speed git operations.
+
+	- Prune your remote tracking branches: git remote update --prune
+		This will get rid of any branches that were deleted upstream since you cloned/pruned. 
+		It normally isn’t a major problem one way or another, but it might lead to confusion.
+
+	- Check your stash for forgotten work: git stash list
+		If you don’t do it very often, the context for the stashed work will be forgotten when you 
+		finally do stumble on it, creating confusion
+		
+PROBLEMAS
+	- Falha no commit com: "...If it still fails, a git process may have crashed in this repository earlier: remove the file manually to continue"
+		- file in question is likely .git/index.lock  
+		- For "GUI" user like me: Open Git Extension and choose repository (if more than one) Choose "Settings" from top menu then "Git Maintenance" and then click on "Delete Index Lock"
+		- It may also concern any *.lock files in .git/, check and remove them: rm -f ./.git/*.lock
+
+Git Extensions: Settings->Git Maintenance->Delete Index Lock
